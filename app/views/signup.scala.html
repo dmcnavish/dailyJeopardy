@@ -1,0 +1,49 @@
+@(users: List[User], userForm: Form[User])
+
+@import helper._  
+
+@main("All Users") {
+    
+    <h1>Current Users (@users.size)</h1>
+
+    <ul>
+    	@users.map { user =>
+    		<li>
+               
+    			@user.firstName @user.lastName : @user.email
+
+    			@form(routes.SignUp.deleteUser(user.id.get)){
+    				<input type="submit" value="Delete"/>
+    			}
+
+    		</li>
+    	}
+    </ul>
+ 	
+ 	<!--<h2>Add a new User</h2>-->
+ 	@form(routes.SignUp.newUser){
+
+        <firldset>
+            <legen>Add a new User</legen>
+         		@inputText(
+                    field = userForm("firstName"),
+                    args = '_label -> "Name:", 'placeholder -> "First", '_showConstraints -> false
+                )
+
+                @inputText(
+                    field = userForm("lastName"),
+                    args = '_label -> "", 'placeholder -> "Last", '_showConstraints -> false
+                )
+
+         		@inputText(
+                    field = userForm("email"),
+                    args = '_label -> "Email Address:", 
+                        'size -> 30, 
+                        'placeholder -> "your.name@gmail.com", 
+                        '_showConstraints -> false,
+                        '_help -> "Enter a valid email address"
+                )
+     		<input type="submit" value="Create"/>
+        </firldset>
+ 	}
+}
