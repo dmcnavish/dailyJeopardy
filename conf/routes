@@ -12,7 +12,7 @@ POST	/users/:id/delete			controllers.SignUp.deleteUser(id: Long)
 
 #Jeopardy
 GET		/Jeopardy					controllers.Jeopardy.form
-POST	/Jeopardy					controllers.Jeopardy.submitAnswer(userId: Long, answer: String)
+POST	/Jeopardy					controllers.Jeopardy.submitAnswer
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

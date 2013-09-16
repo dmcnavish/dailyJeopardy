@@ -10,7 +10,18 @@ CREATE TABLE user (
 	email varchar(255)
 );
 
+CREATE SEQUENCE answer_id_seq;
+CREATE TABLE answer (
+	id integer NOT NULL DEFAULT nextval('answer_id_seq'),
+	userId integer,
+	answer varchar(255) NULL,
+	points integer NULL
+);
+
 #--- !Downs
 
 DROP TABLE user;
 DROP SEQUENCE user_id_seq;
+
+DROP TABLE answer;
+DROP SEQUENCE answer_id_seq;

@@ -1,5 +1,55 @@
-@(answerForm: Form[Answer])
+@(users: Seq[(String,String)], answerForm: Form[Answer])
 
 @import helper._
 
 <h1>Daily Jeopardy</h1>
+
+<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"> </script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		$("#submitBtn").click(function(){
+
+			//console.log("user: " + $("#userId option[value='" + userId + "']").text() + " id: " + userId + " Answer: " + a)
+
+			var reqBody = new Object();
+			reqBody.userId = $('#userId').val();
+			reqBody.answer = $("#answer").val();
+			console.log("UserId: " + reqBody.userId + " answer: " + reqBody.answer)
+
+			$.ajax({
+				url: "/Jeopardy",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify(reqBody)
+			}).done(function(data){
+				$("#serverResponse").html(data.message)
+			}).fail(function(error){
+				$("#serverResponse").html(error.responseText);
+			});
+		});
+
+	});
+</script>
+
+
+	<fieldset>
+		@select(
+			field = answerForm("userId"),
+			options = users,
+			args = '_label -> "Select a user"
+		)
+
+		@inputText(
+			field = answerForm("answer"),
+			args = '_label ->  "Enter your answer",
+				'placeholder -> "What/Who/Where is...",
+				'_showConstraints -> false
+		)
+
+	</fieldset>
+	<button id="submitBtn" >Submit</button>
+
+	<div id="serverResponse"></div>
+

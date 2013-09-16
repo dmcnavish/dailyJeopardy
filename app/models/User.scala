@@ -4,6 +4,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
+import play.api.Logger
 
 case class User(id: Pk[Long] = NotAssigned, firstName: String, lastName: String, email: String)
 
@@ -20,6 +21,11 @@ object User{
 
 	def all(): List[User] = DB.withConnection {implicit c =>
 		SQL("select * from user").as(user *)
+	}
+
+	def userAndIds(): Seq[(String, String)] = {
+		Logger.info("Users: " + User.all())
+		User.all().foldLeft( Seq[(String, String)]()){ (s, current) => (s:+(current.id.toString,current.firstName)) }
 	}
 
 	def create(firstName: String, lastName: String, email: String) {
@@ -39,4 +45,5 @@ object User{
 				).executeUpdate()
 		}
 	}
+
 }
