@@ -1,4 +1,4 @@
-@(users: List[User], userForm: Form[User])
+@(users: List[models.User], userForm: Form[models.User])
 
 @import helper._  
 
@@ -7,25 +7,27 @@
     <h1>Current Users (@users.size)</h1>
 
     <ul>
-    	@users.map { user =>
-    		<li>
-               
-    			@user.firstName @user.lastName : @user.email
+        @if(users.isEmpty){
+            <li>No users found</li>
+        }else{
+        	@users.map { user =>
+        		<li>
+        			@user.firstName @user.lastName : @user.email : id= @user._id
 
-    			@form(routes.SignUp.deleteUser(user.id.get)){
-    				<input type="submit" value="Delete"/>
-    			}
+                    @form(routes.SignUp.deleteUser(user._id.get.stringify)){
+                        <input type="submit" value="Delete"/>
+                    }
 
-    		</li>
-    	}
+        		</li>
+        	}
+        }
     </ul>
  	
- 	<!--<h2>Add a new User</h2>-->
- 	@form(routes.SignUp.newUser){
+    @form(routes.SignUp.newUser){
 
         <firldset>
-            <legen>Add a new User</legen>
-         		@inputText(
+            <legen><h3>Add a new User</h3></legen>
+                @inputText(
                     field = userForm("firstName"),
                     args = '_label -> "Name:", 'placeholder -> "First", '_showConstraints -> false
                 )
@@ -35,7 +37,7 @@
                     args = '_label -> "", 'placeholder -> "Last", '_showConstraints -> false
                 )
 
-         		@inputText(
+                @inputText(
                     field = userForm("email"),
                     args = '_label -> "Email Address:", 
                         'size -> 30, 
@@ -43,7 +45,12 @@
                         '_showConstraints -> false,
                         '_help -> "Enter a valid email address"
                 )
-     		<input type="submit" value="Create"/>
+
+                @inputText(
+                    field = userForm("displayName"),
+                    args = '_label -> "Display Name:"
+                )
+            <input type="submit" value="Create"/>
         </firldset>
- 	}
+    }
 }
