@@ -15,6 +15,7 @@ import reactivemongo.core.commands.Count
 import reactivemongo.bson.BSONObjectID
 import reactivemongo.bson.BSONDocument
 
+
 import play.api.Logger
 
 //DAO for users backed by a mongoDB collection

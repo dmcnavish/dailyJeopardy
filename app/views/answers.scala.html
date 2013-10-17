@@ -1,4 +1,4 @@
-@(answers:List[Answer])
+@(answers:List[models.Answer], answerForm:Form[models.Answer])
 @import helper._  
 
 
@@ -11,17 +11,27 @@ $(document).ready(function(){
 })
 </script>
 
+<style>
+	th,td
+	{
+		border:1px solid black;
+		padding: 10px;
+	}
+</style>
+
 <table>
 	<th>User</th>
 	<th>Answer</th>
 	<th>Points</th>
-	<th>Date</th>
+	<th>Create Date</th>
+	<th>Modified Date</th>
 	@answers.map{answer =>
 		<tr> 
-			<td>@answer.userId</td>
+			<td>@answer.userId.get.stringify</td>
 			<td>@answer.answer</td>
 			<td>@answer.points</td>
-			<td>@answer.created</td>
+			<td>@answer.createDate</td>
+			<td>@answer.modifiedDate</td>
 		</tr>
 	}
 
